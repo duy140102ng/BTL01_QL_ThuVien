@@ -62,7 +62,7 @@ public class Category implements IEntity, Serializable {
             if (!isDuplication) {
                 return categoryId;
             } else {
-                System.err.println("Mã thể loại bị tùng, vui lòng nhập lại!");
+                System.err.println("Mã thể loại bị trùng, vui lòng nhập lại!");
             }
         } while (true);
     }

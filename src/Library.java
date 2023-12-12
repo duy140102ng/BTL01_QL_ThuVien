@@ -5,12 +5,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Library {
-    public static List<Category> listCategory = new ArrayList<>();
-    public static List<Book> listBook = new ArrayList<>();
+    public static List<Category> listCategory;
+    public static List<Book> listBook;
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-
+        listCategory = Category.readDataFromFile();
+        listBook = Book.readDataFromFile();
         int choice = 0;
         do {
             System.out.println("===== QUẢN LÝ THƯ VIỆN =====\n" +
@@ -39,12 +40,7 @@ public class Library {
     }
 
     public static void displayMenuCategory() {
-        try{
-            listCategory = Category.readDataFromFile();
-        }catch(Exception ex){
-            System.err.println("File not found");
-            listCategory = new ArrayList<>();
-        }
+
         boolean isExit = true;
         int choice = 0;
         do {
@@ -122,7 +118,7 @@ public class Library {
             for (Category category : listCategory) {
                 int categoryId = category.getId();
                 String categoryName = category.getName();
-                long bookCount = listBook.stream().filter(book -> book.getCategoryId()==categoryId).count();
+                long bookCount = listBook.stream().filter(book -> book.getCategoryId() == categoryId).count();
                 System.out.println("Mã thể loại: " + categoryId + " - Tên thể loại: " + categoryName +
                         "\nSố sách: " + bookCount);
                 System.out.println("-------------------------------------------");
@@ -171,12 +167,6 @@ public class Library {
     }
 
     public static void displayMenuBook() {
-        try{
-            listBook = Book.readDataFromFile();
-        }catch(Exception ex){
-            System.err.println("File not found");
-            listBook = new ArrayList<>();
-        }
         boolean isExit = true;
         int choice = 0;
         do {
@@ -297,11 +287,12 @@ public class Library {
             System.err.println("Có lỗi: " + ex);
         }
     }
-    public static void displayListBook(){
+
+    public static void displayListBook() {
         System.out.println("DANH SÁCH SÁCH THEO NHÓM THỂ LOẠI: ");
         Map<String, List<Book>> bookByCategory = listBook.stream().collect(Collectors.groupingBy(Book::getTitle));
         bookByCategory.forEach((category, books) -> {
-            System.out.println("Thể loại " +category);
+            System.out.println("Thể loại " + category);
             books.forEach(book -> {
                 System.out.println(" " + book.getTitle());
             });
