@@ -5,6 +5,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Library {
+    public static final String RESET = "\u001B[0m";
+    public static final String BLACK = "\033[0;30m";   // BLACK
+    public static final String RED = "\033[0;31m";     // RED
+    public static final String GREEN = "\033[0;32m";   // GREEN
+    public static final String YELLOW = "\033[0;33m";  // YELLOW
+    public static final String BLUE = "\033[0;34m";    // BLUE
+    public static final String PURPLE = "\033[0;35m";  // PURPLE
+    public static final String CYAN = "\033[0;36m";    // CYAN
+    public static final String WHITE = "\033[0;37m";   // WHITE
     public static List<Category> listCategory;
     public static List<Book> listBook;
     public static Scanner scanner = new Scanner(System.in);
@@ -14,11 +23,11 @@ public class Library {
         listBook = Book.readDataFromFile();
         int choice = 0;
         do {
-            System.out.println("===== QUẢN LÝ THƯ VIỆN =====\n" +
-                    "1. Quản lý Thể loại\n" +
-                    "2. Quản lý Sách\n" +
-                    "3. Thoát");
-            System.out.println("Lựa chọn của bạn: ");
+            System.out.println(CYAN + BLUE + "=====" + RED + "QUẢN LÝ THƯ VIỆN" + CYAN + "=====" + RESET);
+            System.out.println("1. " + YELLOW + "Quản lý thể loại" + RESET);
+            System.out.println("2. " + YELLOW + "Quản lý sách" + RESET);
+            System.out.println("3. " + YELLOW + "Thoát.");
+            System.out.println(RED +"Lựa chọn của bạn: " +RESET);
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (Exception e) {
@@ -34,7 +43,7 @@ public class Library {
                 case 3:
                     System.exit(0);
                 default:
-                    System.err.println("Mời bạn lựa chọn từ 1-3!");
+                    System.out.println(YELLOW +  "⚠" + RED+ " Mời bạn lựa chọn từ 1-3!");
             }
         } while (true);
     }
@@ -44,13 +53,13 @@ public class Library {
         boolean isExit = true;
         int choice = 0;
         do {
-            System.out.println("===== QUẢN LÝ THỂ LOẠI =====\n" +
-                    "1. Thêm mới thể loại\n" +
-                    "2. Hiển thị danh sách theo tên A – Z\n" +
-                    "3. Thống kê thể loại và số sách có trong mỗi thể loại\n" +
-                    "4. Cập nhật thể loại\n" +
-                    "5. Xóa thể loại\n" +
-                    "6. Quay lại");
+            System.out.println(CYAN + BLUE + "===== " + RED + "QUẢN LÝ THỂ LOẠI" + CYAN + " =====" + RESET);
+            System.out.println("1. " + YELLOW + "Thêm mới thể loại" + RESET);
+            System.out.println("2. " + YELLOW + "Hiển thị danh sách theo tên A – Z" + RESET);
+            System.out.println("3. " + YELLOW + "Thống kê thể loại và số sách có trong mỗi thể loại" + RESET);
+            System.out.println("4. " + YELLOW + "Cập nhật thể loại" + RESET);
+            System.out.println("5. " + YELLOW + "Xóa thể loại" + RESET);
+            System.out.println("6. " + YELLOW + "Quay lại" + RESET);
             System.out.println("Lựa chọn của bạn: ");
             try {
                 choice = Integer.parseInt(scanner.nextLine());
@@ -80,7 +89,7 @@ public class Library {
                     isExit = false;
                     break;
                 default:
-                    System.out.println("Mời bạn nhập từ 1-6!");
+                    System.out.println(YELLOW +  "⚠" + RED+ " Mời bạn lựa chọn từ 1-6!");
             }
         } while (isExit);
     }
@@ -99,13 +108,20 @@ public class Library {
         }
     }
 
+
     public static void outputCategory() {
-        System.out.println("THÔNG TIN THỂ LOẠI:");
+        System.out.printf("%s                         ꧁༺THÔNG TIN THỂ LOẠI༻꧂\n", RED);
+        System.out.println("╔═━─────────────────────────────────━▒ ۞ ▒━──────────────────────────────────━═╗");
+        System.out.printf("%s|%-21s |%-31s |%-22s|%s%n", YELLOW, "Mã thể loại", "Tên thể loại", "Trạng thái", PURPLE);
+        System.out.println("╔═━──────────────────────────────────────────────────────────────────────────━═╗");
         try {
-            List<Category> sortedCategory = listCategory.stream().sorted(Comparator.comparing(Category::getName)).collect(Collectors.toList());
+            List<Category> sortedCategory = listCategory.stream()
+                    .sorted(Comparator.comparing(Category::getName))
+                    .collect(Collectors.toList());
+
             for (Category category : sortedCategory) {
-                category.ouput();
-                System.out.println("---------------------------------------------");
+                category.output();
+                System.out.printf("%s╔═━──────────────────────────────────────────────────────────────────────────━═╗\n", PURPLE);
             }
         } catch (Exception ex) {
             System.err.println("Có lỗi: " + ex);
@@ -113,15 +129,18 @@ public class Library {
     }
 
     public static void printStatistics() {
-        System.out.println("THỐNG KÊ THỂ LOẠI VÀ SỐ SÁCH TRONG MỖI THỂ LOẠI: ");
+        System.out.printf("%s THỐNG KÊ THỂ LOẠI VÀ SỐ SÁCH TRONG MỖI THỂ LOẠI:\n", RED);
+        System.out.println("୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧");
+        System.out.printf("%s|%-16s |%-21s |%-12s|%s%n", YELLOW, "Mã thể loại", "Tên thể loại", "Số sách", CYAN);
+        System.out.println("୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧");
         try {
             for (Category category : listCategory) {
                 int categoryId = category.getId();
                 String categoryName = category.getName();
                 long bookCount = listBook.stream().filter(book -> book.getCategoryId() == categoryId).count();
-                System.out.println("Mã thể loại: " + categoryId + " - Tên thể loại: " + categoryName +
-                        "\nSố sách: " + bookCount);
-                System.out.println("-------------------------------------------");
+
+                System.out.printf("| %s%-15d%s | %-20s | %s%-10d%s |%n", CYAN, categoryId, CYAN, categoryName, CYAN, bookCount, CYAN);
+                System.out.println("୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧");
             }
         } catch (Exception ex) {
             System.err.println("Có lỗi: " + ex);
@@ -152,12 +171,12 @@ public class Library {
         System.out.println("Mời bạn nhập mã thể loại cần xóa");
         try {
             int deleteId = Integer.parseInt(scanner.nextLine());
-            boolean isReferenced = listCategory.stream().anyMatch(category -> category.getId() == deleteId);
-            if (!isReferenced) {
+            boolean isReferenced = listBook.stream().anyMatch(book -> book.getId().equals(deleteId));
+            if (isReferenced) {
                 System.err.println("Thể loại đang có sách, không thể xóa thể loại");
             } else {
                 listCategory.removeIf(category -> category.getId() == deleteId);
-                System.out.println("Thể loại đa xóa thành công");
+                System.out.println("Thể loại đã xóa thành công");
             }
         } catch (NumberFormatException nfe) {
             System.err.println("Mã thể loại phải là số nguyên");
@@ -170,13 +189,13 @@ public class Library {
         boolean isExit = true;
         int choice = 0;
         do {
-            System.out.println("===== QUẢN LÝ SÁCH =====\n" +
-                    "1. Thêm mới sách\n" +
-                    "2. Cập nhật thông tin sách\n" +
-                    "3. Xóa sách\n" +
-                    "4. Tìm kiếm sách\n" +
-                    "5. Hiển thị danh sách sách theo nhóm thể loại\n" +
-                    "6. Quay lại");
+            System.out.println(PURPLE + BLUE + "===== " + RED + "QUẢN LÝ SÁCH" + PURPLE + " =====" + RESET);
+            System.out.println("1. " + YELLOW + "Thêm mới sách" + RESET);
+            System.out.println("2. " + YELLOW + "Cập nhật thông tin sách" + RESET);
+            System.out.println("3. " + YELLOW + "Xóa sách" + RESET);
+            System.out.println("4. " + YELLOW + "Tìm kiếm sách" + RESET);
+            System.out.println("5. " + YELLOW + "Hiển thị danh sách sách theo nhóm thể loại" + RESET);
+            System.out.println("6. " + YELLOW + "Quay lại" + RESET);
             System.out.println("Lựa chọn của bạn: ");
             try {
                 choice = Integer.parseInt(scanner.nextLine());
@@ -204,8 +223,9 @@ public class Library {
                     break;
                 case 6:
                     isExit = false;
+                    break;
                 default:
-                    System.out.println("Mời bạn nhập từ 1-6!");
+                    System.out.println(YELLOW +  "⚠" + RED+ " Mời bạn lựa chọn từ 1-6!");
             }
         } while (isExit);
     }
@@ -227,18 +247,24 @@ public class Library {
     public static void updateBook() {
         System.out.println("Mời bạn nhập mã sách cần cập nhật: ");
         try {
-            int updateId = Integer.parseInt(scanner.nextLine());
-            Optional<Book> updateBook = listBook.stream().filter(book -> book.getId().equals(updateId)).findFirst();
-            updateBook.ifPresent(book -> {
-                System.out.println("Mời bạn nhập nhập thông tin mới cho thông tin sách");
-                book.input(scanner);
+            String updateId = scanner.nextLine().trim();
+            Optional<Book> updateBook = listBook.stream()
+                    .filter(book -> {
+                        String bookId = book.getId();
+                        return bookId != null && bookId.equals(updateId);
+                    })
+                    .findFirst();
+            if (updateBook.isPresent()) {
+                System.out.println("Mời bạn nhập thông tin mới cho sách");
+                int index = listBook.indexOf(updateBook.get());
+                Book updatedBook = new Book();
+                updatedBook.input(scanner);
+                updatedBook.setId(updateId);
+                listBook.set(index, updatedBook);
                 System.out.println("Thông tin đã được cập nhật thành công");
-            });
-            if (!updateBook.isPresent()) {
-                System.err.println("Không tìm thấy thể loại cần cập nhật");
+            } else {
+                System.err.println("Không tìm thấy sách cần cập nhật");
             }
-        } catch (NumberFormatException nfe) {
-            System.err.println("Mã sách phải là số nguyên");
         } catch (Exception ex) {
             System.err.println("Có lỗi: " + ex);
         }
@@ -247,39 +273,66 @@ public class Library {
     public static void deleteBook() {
         System.out.println("Mời bạn nhập mã sách cần xóa");
         try {
-            int deleteId = Integer.parseInt(scanner.nextLine());
-            listBook.stream().anyMatch(book -> book.getId().equals(deleteId));
-            listBook.removeIf(book -> book.getId().equals(deleteId));
-            System.out.println("Thng tin sách đã xóa thành công");
-        } catch (NumberFormatException nfe) {
-            System.err.println("Mã sách phải là số nguyên");
+            String deleteId = scanner.nextLine().trim();
+            boolean isBookFound = listBook.stream()
+                    .anyMatch(book -> {
+                        String bookId = book.getId();
+                        return bookId != null && bookId.equals(deleteId);
+                    });
+            if (isBookFound) {
+                listBook.removeIf(book -> {
+                    String bookId = book.getId();
+                    return bookId != null && bookId.equals(deleteId);
+                });
+                System.out.println("Thông tin sách đã xóa thành công");
+            } else {
+                System.out.println("Không tìm thấy sách với mã đã nhập");
+            }
         } catch (Exception ex) {
             System.err.println("Có lỗi: " + ex);
         }
     }
 
-    public static List<Book> searchBooks(String keybook) {
-        return listBook.stream().filter(book ->
-                book.getTitle().toLowerCase().contains(keybook.toLowerCase()) ||
-                        book.getAuthor().toLowerCase().contains(keybook.toLowerCase()) ||
-                        book.getPublisher().toLowerCase().contains(keybook.toLowerCase())
-        ).collect(Collectors.toList());
+    public static List<Book> searchBooks(String keyBook) {
+        String keyLowerCase = keyBook.toLowerCase();
+        return listBook.stream()
+                .filter(book -> containsIgnoreCase(book.getTitle(), keyLowerCase) ||
+                        containsIgnoreCase(book.getAuthor(), keyLowerCase) ||
+                        containsIgnoreCase(book.getPublisher(), keyLowerCase))
+                .collect(Collectors.toList());
     }
 
-    public static void displayBooks(List<Book> listBook) {
-        listBook.forEach(book -> {
-            book.input(scanner);
-            System.out.println("-----------------------------------------");
-        });
+    public static void displayBooks(List<Book> books) {
+        if (books == null) {
+            System.out.println("Không tìm thấy sách phù hợp");
+        } else {
+            System.out.println("DANH SÁCH SÁCH:");
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.printf("|%s%-10s |%-20s |%-20s |%-20s |%-20s |%-20s |%-15s |%s%n",
+                    YELLOW, "Mã sách", "Tiêu đề sách", "Tác giả", "Nhà xuất bản", "Năm xuất bản", "Mô tả sách", "Mã thể loại", RESET);
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+
+            books.forEach(book -> {
+                System.out.printf("|%-10s |%-20s |%-20s |%-20s |%-20s |%-20s |%-15s |%n",
+                        book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(),
+                        book.getYear(), book.getDescription(), book.getCategoryId());
+                System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+            });
+        }
     }
 
     public static void searchBook() {
         System.out.println("Mời bạn nhập ký tự để tìm kiếm: ");
         try {
             String keyBook = scanner.nextLine().trim();
+
             if (!keyBook.isEmpty()) {
                 List<Book> searchResults = searchBooks(keyBook);
-                displayBooks(searchResults);
+                if (!searchResults.isEmpty()) {
+                    displayBooks(searchResults);
+                } else {
+                    System.out.println("Không tìm thấy sách phù hợp với từ khóa \"" + keyBook + "\"");
+                }
             } else {
                 System.err.println("Vui lòng nhập từ khóa tìm kiếm");
             }
@@ -288,16 +341,31 @@ public class Library {
         }
     }
 
+    private static boolean containsIgnoreCase(String source, String key) {
+        return source.toLowerCase().contains(key);
+    }
+
     public static void displayListBook() {
         System.out.println("DANH SÁCH SÁCH THEO NHÓM THỂ LOẠI: ");
-        Map<String, List<Book>> bookByCategory = listBook.stream().collect(Collectors.groupingBy(Book::getTitle));
-        bookByCategory.forEach((category, books) -> {
-            System.out.println("Thể loại " + category);
+        System.out.printf("%s+----------------------+----------------------+%n", YELLOW);
+        Map<Integer, List<Book>> booksByCategory = listBook.stream().collect(Collectors.groupingBy(Book::getCategoryId));
+        System.out.printf("%s|%-21s |%-21s |%n", YELLOW, "Thể loại", "Tên sách");
+        System.out.println("+----------------------+----------------------+");
+        booksByCategory.forEach((category, books) -> {
+            System.out.printf("%s|%-21s |%-21s |%n", BLUE, getCategoryNameById(category), "");
             books.forEach(book -> {
-                System.out.println(" " + book.getTitle());
+                System.out.printf("|%-28s |%s%-21s |%n", BLUE, "", book.getTitle());
             });
-            System.out.println("-----------------------------------------");
+            System.out.println("+----------------------+----------------------+");
         });
     }
 
+    public static String getCategoryNameById(int categoryId) {
+        for (Category category : listCategory) {
+            if (category.getId() == categoryId) {
+                return category.getName();
+            }
+        }
+        return "";
+    }
 }

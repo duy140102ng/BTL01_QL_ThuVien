@@ -1,6 +1,7 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -96,19 +97,19 @@ public class Book implements IEntity, Serializable {
     public String inputId(List<Book> bookList, Scanner scanner) {
         System.out.println("Mời bạn nhập mã sách: ");
         do {
-            this.id = lenghthString(3, 4, scanner);
-            if (this.id.charAt(0) == 'B') {
+            String bookId = lenghthString(3, 4, scanner);
+            if (bookId.charAt(0) == 'B') {
                 boolean isDupcription = false;
                 for (int i = 0; i < bookList.size(); i++) {
-                    if (this.id.equals(bookList.get(i).getId())) {
+                    if (bookId.equals(bookList.get(i).getId())) {
                         isDupcription = true;
                         break;
                     }
                 }
                 if (!isDupcription) {
-                    return this.id;
+                    return bookId;
                 } else {
-                    System.err.println("Mã sách bị tùng");
+                    System.err.println("Mã sách bị trùng");
                 }
             } else {
                 System.err.println("Ký tự đầu tiên của sách là B, vui lòng nhập lại");
@@ -119,16 +120,16 @@ public class Book implements IEntity, Serializable {
     public String inputTitleBook(List<Book> bookList, Scanner scanner) {
         System.out.println("Mời bạn nhập tiêu đề sách: ");
         do {
-            this.title = lenghthString(6, 50, scanner);
+            String bookTitle= lenghthString(6, 50, scanner);
             boolean isDupcription = false;
             for (int i = 0; i < bookList.size(); i++) {
-                if (this.title.equals(bookList.get(i).getTitle())) {
+                if (bookTitle.equals(bookList.get(i).getTitle())) {
                     isDupcription = true;
                     break;
                 }
             }
             if (!isDupcription) {
-                return this.title;
+                return bookTitle;
             } else {
                 System.err.println("Tiêu đề đã có, vui lòng nhập lại!");
             }
@@ -143,7 +144,7 @@ public class Book implements IEntity, Serializable {
 
             if (authorBook.trim().isEmpty()) {
                 System.err.println("Tên tác giả không được bỏ trống, vui lòng nhập lại!");
-            }else {
+            } else {
                 return authorBook;
             }
         } while (true);
@@ -155,7 +156,7 @@ public class Book implements IEntity, Serializable {
             String publisher = scanner.nextLine().trim();
             if (publisher.isEmpty()) {
                 System.err.println("Nhà xuất bản không được bỏ trống, vui lòng nhập lại!");
-            }else {
+            } else {
                 return publisher;
             }
         } while (true);
@@ -168,7 +169,7 @@ public class Book implements IEntity, Serializable {
             this.year = validate(scanner);
             if (this.year <= 1970 || this.year > yearNow) {
                 System.err.println("Năm xuất bản không hợp lệ, vui lòng nhập lại!");
-            }else {
+            } else {
                 return this.year;
             }
         } while (true);
@@ -180,14 +181,14 @@ public class Book implements IEntity, Serializable {
             String description = scanner.nextLine().trim();
             if (description.isEmpty()) {
                 System.err.println("Mô tả sách không được bỏ trống, vui lòng nhập lại!");
-            }else {
+            } else {
                 return description;
             }
         } while (true);
     }
 
     public int inputCategoryId(Scanner scanner, List<Category> categoryList) {
-        System.out.println("Chọn danh mục của sản phẩm: ");
+        System.out.println("Chọn danh mục của sách: ");
         for (int i = 0; i < categoryList.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, categoryList.get(i).getName());
         }
@@ -232,10 +233,20 @@ public class Book implements IEntity, Serializable {
         } while (true);
     }
 
+    public static final String RESET = "\u001B[0m";
+    public static final String BLACK = "\033[0;30m";   // BLACK
+    public static final String RED = "\033[0;31m";     // RED
+    public static final String GREEN = "\033[0;32m";   // GREEN
+    public static final String YELLOW = "\033[0;33m";  // YELLOW
+    public static final String BLUE = "\033[0;34m";    // BLUE
+    public static final String PURPLE = "\033[0;35m";  // PURPLE
+    public static final String CYAN = "\033[0;36m";    // CYAN
+    public static final String WHITE = "\033[0;37m";   // WHITE
+
     @Override
-    public void ouput() {
-        System.out.println("Mã sách: " +this.id + " - Tiêu đề sách: " + this.title + " - Tên tắc giả: \n" + this.author+
-                "Nhà xuất bản: " + this.publisher + " - Năm xuất bản: " + this.year + "- Mô tả sách: " + (this.description + " - Mã thể loại sách: " + this.categoryId));
+    public void output() {
+        System.out.println("Mã sách: " +this.id + " - Tiêu đề sách: " + this.title + " - Tên tắc giả: " + this.author+
+                "\nNhà xuất bản: " + this.publisher + " - Năm xuất bản: " + this.year + "- Mô tả sách: " + this.description + " - Mã thể loại sách: " + this.categoryId);
     }
 
     public static void writeDataToFile(List<Book> bookList) {
@@ -285,7 +296,7 @@ public class Book implements IEntity, Serializable {
         } catch (FileNotFoundException e) {
             listBookRead = new ArrayList<>();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            listBookRead = new ArrayList<>();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (Exception ex) {
